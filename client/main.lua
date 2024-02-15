@@ -64,12 +64,14 @@ local function drunkLoop()
     end)
 end
 
-AddStateBagChangeHandler("alcohol", ('player:%s'):format(cache.serverId), function(_, _, value)
+AddStateBagChangeHandler('alcohol', ('player:%s'):format(cache.serverId), function(_, _, value)
+    if not value then return end
     alcoholLevel = value
     if value > 0 and not isDrunk then
         isDrunk = true
         SetTimeout(config.delayEffect, drunkLoop)
     end
+    LocalPlayer.state:set('alcohol', 0, true)
 end)
 
 AddEventHandler('onResourceStart', function(resource)
