@@ -1,13 +1,13 @@
-local config = require("config.client")
-local isDrunk = false
+local config = require('config.client')
 local alcoholLevel = LocalPlayer.state.alcohol or 0
 local playerWalk
+local playerState = LocalPlayer.state
 
 local function resetEffect()
-    exports.scully_emotemenu:setWalk(playerWalk or "move_m@casual@a")
+    exports.scully_emotemenu:setWalk(playerWalk or 'move_m@casual@a')
     playerWalk = nil
     SetPedIsDrunk(cache.ped, false)
-    ShakeGameplayCam("DRUNK_SHAKE", 0.0)
+    ShakeGameplayCam('DRUNK_SHAKE', 0.0)
     SetPedConfigFlag(cache.ped, 100, false)
     ClearTimecycleModifier()
 end
@@ -18,14 +18,15 @@ local function drunkEffect(severity)
     end
     exports.scully_emotemenu:setWalk(severity.walk or 'move_m@drunk@slightlydrunk')
     SetPedIsDrunk(cache.ped, true)
-    ShakeGameplayCam("DRUNK_SHAKE", severity.shake or 0.25)
+    ShakeGameplayCam('DRUNK_SHAKE', severity.shake or 0.25)
     SetPedConfigFlag(cache.ped, 100, true)
-    SetTimecycleModifier(severity.timecycle or "Drunk")
+    SetTimecycleModifier(severity.timecycle or 'Drunk')
 end
 
 local function drunkLoop()
     CreateThread(function()
-        while isDrunk do
+        while playerState.alcohol > 0 do
+            SetPedIsDrunk(cache.ped, true)
             local severity
             for k, v in pairs(config.effect.severitySteps) do
                 if alcoholLevel >= k then
@@ -55,27 +56,26 @@ local function drunkLoop()
             end
 
             alcoholLevel = alcoholLevel > 0 and alcoholLevel or 0
-            LocalPlayer.state:set("alcohol", alcoholLevel, true)
-            isDrunk = alcoholLevel > 0
-            if not isDrunk then
+            playerState:set('alcohol', alcoholLevel, true)
+            if playserState.alcohol == 0 then
                 resetEffect()
             end
         end
     end)
 end
 
-AddStateBagChangeHandler("alcohol", ('player:%s'):format(cache.serverId), function(_, _, value)
-    alcoholLevel = value
-    if value > 0 and not isDrunk then
-        isDrunk = true
+AddStateBagChangeHandler('alcohol', ('player:%s'):format(cache.serverId), function(_, _, value)
+    if not alcoholLevel then
+        alcoholLevel = value
         SetTimeout(config.delayEffect, drunkLoop)
+        return
     end
+    alcoholLevel = value
 end)
 
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
-        if LocalPlayer.state.alcohol and LocalPlayer.state.alcohol > 0 then
-            isDrunk = true
+        if playerState.alcohol and playerState.alcohol > 0 then
             drunkLoop()
         else
             resetEffect()
