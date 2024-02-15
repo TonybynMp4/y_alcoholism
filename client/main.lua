@@ -64,7 +64,7 @@ local function drunkLoop()
     end)
 end
 
-AddStateBagChangeHandler("alcohol", ('player:%s'):format(cache.serverId), function(stateBag, key, value)
+AddStateBagChangeHandler("alcohol", ('player:%s'):format(cache.serverId), function(_, _, value)
     alcoholLevel = value
     if value > 0 and not isDrunk then
         isDrunk = true
