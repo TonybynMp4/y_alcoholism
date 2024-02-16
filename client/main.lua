@@ -17,13 +17,15 @@ local function drunkEffect(severity)
         playerWalk = exports.scully_emotemenu:getCurrentWalk()
     end
     exports.scully_emotemenu:setWalk(severity.walk or 'move_m@drunk@slightlydrunk')
-    SetPedIsDrunk(cache.ped, true)
     ShakeGameplayCam('DRUNK_SHAKE', severity.shake or 0.25)
     SetPedConfigFlag(cache.ped, 100, true)
-    SetTimecycleModifier(severity.timecycle or 'Drunk')
+    SetTransitionTimecycleModifier(severity.timecycle or 'Drunk', 0.5)
 end
 
 local function drunkLoop()
+    if not playerState.isLoggedIn or not playerState.alcohol or playerState.alcohol <= 0 then
+        return
+    end
     CreateThread(function()
         while playerState.alcohol > 0 do
             SetPedIsDrunk(cache.ped, true)
@@ -57,20 +59,59 @@ local function drunkLoop()
 
             alcoholLevel = alcoholLevel > 0 and alcoholLevel or 0
             playerState:set('alcohol', alcoholLevel, true)
-            if playserState.alcohol == 0 then
+            if playerState.alcohol == 0 then
                 resetEffect()
             end
         end
     end)
 end
 
+lib.callback.register('consumables:client:DrinkAlcohol', function(itemName, params)
+    if lib.progressBar({
+        duration = math.random(3000, 6000),
+        label = 'Drinking liquor...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = false,
+            car = false,
+            mouse = false,
+            combat = true
+        },
+        anim = params.anim or {
+            clip = 'loop_bottle',
+            dict = 'mp_player_intdrink',
+            flag = 49
+        },
+        prop = params.prop or {
+            {
+                model = 'prop_amb_beer_bottle',
+                bone = 18905,
+                pos = {x = 0.12, y = 0.008, z = 0.03},
+                rot = {x = 240.0, y = -60.0, z = 0.0}
+            }
+        }
+    }) then -- if completed
+        TriggerServerEvent('hud:server:RelieveStress', math.random(params.stressRelief.min, params.stressRelief.max))
+        return true
+    else -- if canceled
+        exports.qbx_core:Notify('Canceled...', 'error')
+        return false
+    end
+end)
+
 AddStateBagChangeHandler('alcohol', ('player:%s'):format(cache.serverId), function(_, _, value)
-    if not alcoholLevel then
+    if alcoholLevel <= 0 and value > 0 then
         alcoholLevel = value
         SetTimeout(config.delayEffect, drunkLoop)
         return
     end
     alcoholLevel = value
+end)
+
+AddEventHandler('QBCore:Client:OnPlayerUnload', function()
+    playerState:set('alcohol', 0, true)
+    resetEffect()
 end)
 
 AddEventHandler('onResourceStart', function(resource)
