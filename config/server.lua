@@ -36,7 +36,7 @@ return {
         champagne = {
             min = 20,
             max = 40,
-            alcoholLevel = 0.5,
+            alcoholLevel = 0.25,
             prop = {
                 bone = 18905,
                 pos = vec3(0.10000000149011, -0.02999999932944, 0.02999999932944),
@@ -52,7 +52,7 @@ return {
         whiskey = {
             min = 20,
             max = 30,
-            alcoholLevel = 0.75,
+            alcoholLevel = 0.5,
             prop = {
                 bone = 60309,
                 pos = vec3(0.0, 0.0, 0.0),
@@ -68,7 +68,7 @@ return {
         vodka = {
             min = 20,
             max = 40,
-            alcoholLevel = 1,
+            alcoholLevel = 0.5,
             prop = {
                 bone = 18905,
                 pos = vec3(0.0, -0.25999999046325, 0.10000000149011),
@@ -84,7 +84,7 @@ return {
         beer = {
             min = 30,
             max = 40,
-            alcoholLevel = 0.25,
+            alcoholLevel = 0.15,
             prop = {
                 bone = 18905,
                 pos = vec3(0.03999999910593, -0.14000000059604, 0.10000000149011),
@@ -99,7 +99,7 @@ return {
         },
         wine = {
             min = 20,
-            alcoholLevel = 0.3,
+            alcoholLevel = 0.125,
             max = 40,
             prop = {
                 bone = 18905,
@@ -116,7 +116,7 @@ return {
         grapejuice = {
             max = 25,
             min = 10,
-            alcoholLevel = 0.05,
+            alcoholLevel = 0.075,
             prop = {
                 bone = 18905,
                 pos = vec3(0.0, -0.25999999046325, 0.10000000149011),

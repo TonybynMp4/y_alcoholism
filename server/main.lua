@@ -26,13 +26,12 @@ for alcohol, params in pairs(config.alcoholItems) do
         local newAlcohol = playerState.alcohol + ((params.alcoholLevel / 2) * (1 - alcoholTolerance)) + (params.alcoholLevel / 2)
 
         playerState:set('alcohol', newAlcohol, true)
-        player.Functions.SetMetaData('alcohol', playerState.alcohol)
+        player.Functions.SetMetaData('alcohol', newAlcohol)
 
-
-        if math.random() <= config.alcoholToleranceIncreaseChance then
+        if alcoholTolerance < 1.0 and math.random() <= config.alcoholToleranceIncreaseChance then
             player.Functions.SetMetaData('alcoholTolerance', alcoholTolerance + config.alcoholToleranceIncrease)
+            exports.qbx_core:Notify(source, 'You feel like you can handle your liquor better now', 'success')
         end
-
 
         playerState:set('stress', playerState.stress - math.random(params.stressRelief.min, params.stressRelief.max), true)
 

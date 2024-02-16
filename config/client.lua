@@ -1,8 +1,8 @@
 return {
     --- time in minutes before the alcohol level is updated
-    alcoholDecayTime = 5,
+    alcoholDecayTime = 1,
     --- amount of alcohol to decay per alcoholDecayTime
-    alcoholDecayAmount = 0.25,
+    alcoholDecayAmount = 0.05,
     --- delay in ms before the effect is first applied
     delayEffect = 15000,
     effect = {
