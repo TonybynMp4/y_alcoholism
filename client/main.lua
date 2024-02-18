@@ -40,7 +40,7 @@ local function drunkLoop()
                 drunkEffect(severity)
             end
 
-            Wait(1000 * 60 * config.alcoholDecayTime)
+            Wait(60000 * config.alcoholDecayTime)
 
             if alcoholLevel > 0 then
                 alcoholLevel -= config.alcoholDecayAmount
