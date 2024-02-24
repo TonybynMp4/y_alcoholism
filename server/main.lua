@@ -39,6 +39,42 @@ for alcohol, params in pairs(config.alcoholItems) do
     end)
 end
 
+---Compatibility with txAdmin Menu's heal options.
+---This is an admin only server side event that will pass the target player id or -1.
+---@class EventData
+---@field id number
+---@param eventData EventData
+AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
+	if GetInvokingResource() ~= 'monitor' or type(eventData) ~= 'table' or type(eventData.id) ~= 'number' then
+		return
+	end
+
+    local target = eventData.id
+    if target ~= -1 then
+        local playerState = Player(target).state
+        playerState:set('alcohol', 0, true)
+        local player = exports.qbx_core:GetPlayer(target)
+        if player then
+            player.Functions.SetMetaData('alcohol', 0)
+        end
+        return
+    end
+
+    for _, id in ipairs(GetPlayers()) do
+        local playerState = Player(id).state
+        playerState:set('alcohol', 0, true)
+        local player = exports.qbx_core:GetPlayer(id)
+        player.Functions.SetMetaData('alcohol', 0)
+    end
+end)
+
+RegisterNetEvent('qbx_alcoholism:server:playerRevived', function()
+    local player = exports.qbx_core:GetPlayer(source)
+    if not player then return end
+    player.Functions.SetMetaData('alcohol', 0)
+    Player(source).state:set('alcohol', 0, true)
+end)
+
 RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
     local player = exports.qbx_core:GetPlayer(source)
     Player(source).state:set('alcohol', player.PlayerData.metadata.alcohol, true)

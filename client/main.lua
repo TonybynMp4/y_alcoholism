@@ -109,9 +109,13 @@ AddStateBagChangeHandler('alcohol', ('player:%s'):format(cache.serverId), functi
     alcoholLevel = value
 end)
 
-AddEventHandler('QBCore:Client:OnPlayerUnload', function()
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     playerState:set('alcohol', 0, true)
     resetEffect()
+end)
+
+RegisterNetEvent('qbx_medical:client:playerRevived', function()
+    TriggerServerEvent('qbx_alcoholism:server:playerRevived')
 end)
 
 AddEventHandler('onResourceStart', function(resource)
