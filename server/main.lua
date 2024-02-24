@@ -1,4 +1,4 @@
-lib.versionCheck('Qbox-project/qbx_alcoholism')
+lib.versionCheck('TonybynMp4/qbx_alcoholism')
 local config = require 'config.server'
 
 for alcohol, params in pairs(config.alcoholItems) do

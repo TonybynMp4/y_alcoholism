@@ -2,7 +2,8 @@ fx_version 'cerulean'
 game 'gta5'
 
 description 'qbx_alcoholism'
-repository 'https://github.com/Qbox-project/qbx_alcoholism'
+authors 'Tonybyn_Mp4'
+repository 'https://github.com/TonybynMp4/qbx_alcoholism'
 version '1.0.0'
 
 shared_scripts {
