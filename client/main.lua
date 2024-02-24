@@ -114,6 +114,10 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     resetEffect()
 end)
 
+RegisterNetEvent('qbx_medical:client:playerRevived', function()
+    TriggerServerEvent('qbx_alcoholism:server:playerRevived')
+end)
+
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
         if playerState.alcohol and playerState.alcohol > 0 then

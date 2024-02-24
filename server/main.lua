@@ -68,6 +68,13 @@ AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
     end
 end)
 
+RegisterNetEvent('qbx_alcoholism:server:playerRevived', function()
+    local player = exports.qbx_core:GetPlayer(source)
+    if not player then return end
+    player.Functions.SetMetaData('alcohol', 0)
+    Player(source).state:set('alcohol', 0, true)
+end)
+
 RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
     local player = exports.qbx_core:GetPlayer(source)
     Player(source).state:set('alcohol', player.PlayerData.metadata.alcohol, true)
