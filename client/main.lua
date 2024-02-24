@@ -66,7 +66,7 @@ local function drunkLoop()
     end)
 end
 
-lib.callback.register('consumables:client:DrinkAlcohol', function(itemName, params)
+lib.callback.register('consumables:client:DrinkAlcohol', function(params)
     if lib.progressBar({
         duration = math.random(3000, 6000),
         label = 'Drinking liquor...',

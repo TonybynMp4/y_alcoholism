@@ -14,7 +14,7 @@ for alcohol, params in pairs(config.alcoholItems) do
             }
         end
 
-        local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, item.name, { anim = params.anim, prop = params.prop, stressRelief = params.stressRelief})
+        local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, { anim = params.anim, prop = params.prop, stressRelief = params.stressRelief})
         if not drank then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
         local sustenance = playerState.thirst + math.random(params.min, params.max)
@@ -80,7 +80,7 @@ RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
     Player(source).state:set('alcohol', player.PlayerData.metadata.alcohol, true)
 end)
 
-AddStateBagChangeHandler('alcohol', nil, function(bagName, key, value)
+AddStateBagChangeHandler('alcohol', nil, function(bagName, _, value)
     local source = GetPlayerFromStateBagName(bagName)
     if source == 0 then return end
     local player = exports.qbx_core:GetPlayer(source)
