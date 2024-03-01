@@ -1,4 +1,5 @@
 local config = require('config.client')
+local sharedConfig = require('config.shared')
 local alcoholLevel = LocalPlayer.state.alcohol or 0
 local playerWalk
 local playerState = LocalPlayer.state
@@ -40,10 +41,10 @@ local function drunkLoop()
                 drunkEffect(severity)
             end
 
-            Wait(60000 * config.alcoholDecayTime)
+            Wait(60000 * sharedConfig.alcoholDecayTime)
 
             if alcoholLevel > 0 then
-                alcoholLevel -= config.alcoholDecayAmount
+                alcoholLevel -= sharedConfig.alcoholDecayAmount
             end
 
             if alcoholLevel >= config.ethylComaValue then
