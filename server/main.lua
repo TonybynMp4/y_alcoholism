@@ -86,6 +86,12 @@ RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
     Player(source).state:set('alcohol', alcohol, true)
 end)
 
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+    local player = exports.qbx_core:GetPlayer(source)
+    if not player then return end
+    player.Functions.SetMetaData('alcohol', Player(source).state.alcohol)
+end)
+
 AddStateBagChangeHandler('alcohol', nil, function(bagName, _, value)
     local source = GetPlayerFromStateBagName(bagName)
     if source == 0 then return end
