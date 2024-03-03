@@ -79,6 +79,7 @@ end)
 RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
     local player = exports.qbx_core:GetPlayer(source)
     local lastLoggedOut = player.PlayerData.lastLoggedOut
+    if not lastLoggedOut then return end
     local timePassed = (os.time() - lastLoggedOut/1000) / 60
     local alcohol = player.PlayerData.metadata.alcohol
     alcohol -= (timePassed / sharedConfig.alcoholDecayTime) * sharedConfig.alcoholDecayAmount
@@ -97,5 +98,6 @@ AddStateBagChangeHandler('alcohol', nil, function(bagName, _, value)
     if source == 0 then return end
     local player = exports.qbx_core:GetPlayer(source)
     if not player then return end
+    if value == player.PlayerData.metadata.alcohol then return end
     player.Functions.SetMetaData('alcohol', value)
 end)
