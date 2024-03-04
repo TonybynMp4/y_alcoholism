@@ -1,7 +1,7 @@
 local config = require('config.client')
-local alcoholLevel = LocalPlayer.state.alcohol or 0
-local playerWalk
 local playerState = LocalPlayer.state
+local alcoholLevel = playerState.alcohol or 0
+local playerWalk
 
 local function resetEffect()
     exports.scully_emotemenu:setWalk(playerWalk or 'move_m@casual@a')
@@ -101,7 +101,8 @@ lib.callback.register('consumables:client:DrinkAlcohol', function(params)
 end)
 
 AddStateBagChangeHandler('alcohol', ('player:%s'):format(cache.serverId), function(_, _, value)
-    if alcoholLevel <= 0 and value > 0 then
+    if type(value) ~= 'number' then return end
+    if (not alcoholLevel or alcoholLevel < 0) and value > 0 then
         alcoholLevel = value
         SetTimeout(config.delayEffect, drunkLoop)
         return
