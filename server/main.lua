@@ -80,7 +80,8 @@ end)
 AddStateBagChangeHandler('alcohol', nil, function(bagName, _, value)
     local source = GetPlayerFromStateBagName(bagName)
     if source == 0 then return end
-    local player = exports.qbx_core:GetPlayer(source)
+	if value == Player(source).state.alcohol then return end
+	local player = exports.qbx_core:GetPlayer(source)
     if not player then return end
     player.Functions.SetMetaData('alcohol', value)
 end)
