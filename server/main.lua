@@ -17,8 +17,8 @@ for alcohol, params in pairs(config.alcoholItems) do
         local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, { anim = params.anim, prop = params.prop, stressRelief = params.stressRelief})
         if not drank then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
-        local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
-        player.Functions.SetMetaData('thirst', sustenance)
+        local sustenance = playerState.thirst + math.random(params.min, params.max)
+        playerState:set('thirst', sustenance, true)
 
         local alcoholTolerance = player.PlayerData.metadata.alcoholTolerance or 0
         -- you can build tolerance to reduce up to 50% of the alcohol level
@@ -32,7 +32,7 @@ for alcohol, params in pairs(config.alcoholItems) do
             exports.qbx_core:Notify(source, 'You feel like you can handle your liquor better now', 'success')
         end
 
-        TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.thirst, sustenance)
+        TriggerClientEvent('hud:client:UpdateNeeds', source, playerState.thirst, sustenance)
     end)
 end
 
