@@ -102,7 +102,7 @@ end)
 
 AddStateBagChangeHandler('alcohol', ('player:%s'):format(cache.serverId), function(_, _, value)
     if type(value) ~= 'number' then return end
-    if (not alcoholLevel or alcoholLevel < 0) and value > 0 then
+    if (not alcoholLevel or alcoholLevel <= 0) and value > 0 then
         alcoholLevel = value
         SetTimeout(config.delayEffect, drunkLoop)
         return
