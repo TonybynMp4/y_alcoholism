@@ -1,5 +1,6 @@
 lib.versionCheck('TonybynMp4/qbx_alcoholism')
 local config = require 'config.server'
+local sharedConfig = require 'config.shared'
 
 for alcohol, params in pairs(config.alcoholItems) do
     exports.qbx_core:CreateUseableItem(alcohol, function(source, item)
@@ -74,7 +75,20 @@ end)
 
 RegisterNetEvent('QBCore:Server:OnPlayerLoaded', function()
     local player = exports.qbx_core:GetPlayer(source)
-    Player(source).state:set('alcohol', player.PlayerData.metadata.alcohol or 0, true)
+    local lastLoggedOut = player.PlayerData.lastLoggedOut
+    if not lastLoggedOut then return end
+    local timePassed = (os.time() - lastLoggedOut/1000) / 60
+    local alcohol = player.PlayerData.metadata.alcohol
+    alcohol -= (timePassed / sharedConfig.alcoholDecayTime) * sharedConfig.alcoholDecayAmount
+
+    Player(source).state:set('alcohol', alcohol, true)
+end)
+
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+    local player = exports.qbx_core:GetPlayer(source)
+    if not player then return end
+    player.Functions.SetMetaData('alcohol', Player(source).state.alcohol)
+    Player(source).state:set('alcohol', 0, true)
 end)
 
 AddStateBagChangeHandler('alcohol', nil, function(bagName, _, value)
@@ -83,5 +97,6 @@ AddStateBagChangeHandler('alcohol', nil, function(bagName, _, value)
 	if value == Player(source).state.alcohol then return end
 	local player = exports.qbx_core:GetPlayer(source)
     if not player then return end
+    if value == player.PlayerData.metadata.alcohol then return end
     player.Functions.SetMetaData('alcohol', value)
 end)

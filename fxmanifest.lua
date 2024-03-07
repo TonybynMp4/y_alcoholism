@@ -19,7 +19,10 @@ server_scripts {
     'server/main.lua'
 }
 
-file 'config/client.lua'
+files {
+    'config/client.lua',
+    'config/shared.lua'
+}
 
 lua54 'yes'
 use_experimental_fxv2_oal 'yes'
