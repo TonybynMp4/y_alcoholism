@@ -4,7 +4,7 @@ game 'gta5'
 description 'qbx_alcoholism'
 authors 'Tonybyn_Mp4'
 repository 'https://github.com/TonybynMp4/qbx_alcoholism'
-version '1.0.1'
+version '1.0.2'
 
 shared_scripts {
     '@ox_lib/init.lua',
