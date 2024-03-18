@@ -49,20 +49,24 @@ AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
 
     local target = eventData.id
     if target ~= -1 then
-        local playerState = Player(target).state
-        playerState:set('alcohol', 0, true)
         local player = exports.qbx_core:GetPlayer(target)
-        if player then
-            player.Functions.SetMetaData('alcohol', 0)
-        end
-        return
+        if not player then return end
+        player.Functions.SetMetaData('alcohol', 0)
+        
+        local playerState = Player(target).state
+        if not playerState then return end
+        return playerState:set('alcohol', 0, true)
     end
 
     for _, id in ipairs(GetPlayers()) do
-        local playerState = Player(id).state
-        playerState:set('alcohol', 0, true)
         local player = exports.qbx_core:GetPlayer(id)
+        if not player then goto continue end
         player.Functions.SetMetaData('alcohol', 0)
+        
+        local playerState = Player(id).state
+        if not playerState then goto continue end
+        playerState:set('alcohol', 0, true)
+        ::continue::
     end
 end)
 
