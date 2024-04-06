@@ -15,7 +15,7 @@ for alcohol, params in pairs(config.alcoholItems) do
             }
         end
 
-        local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, { anim = params.anim, prop = params.prop, stressRelief = params.stressRelief})
+        local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, params.anim, params.prop)
         if not drank then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
         local sustenance = lib.math.clamp(playerState.thirst + math.random(params.min, params.max), 0, 100)
@@ -33,6 +33,7 @@ for alcohol, params in pairs(config.alcoholItems) do
             exports.qbx_core:Notify(source, 'You feel like you can handle your liquor better now', 'success')
         end
 
+		playerState:set('stress', lib.math.clamp((playerState.stress or 0) - math.random(params.stressRelief.min, params.stressRelief.max), 0, 100), true)
         TriggerClientEvent('hud:client:UpdateNeeds', source, playerState.thirst, sustenance)
     end)
 end

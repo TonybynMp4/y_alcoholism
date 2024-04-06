@@ -67,7 +67,7 @@ local function drunkLoop()
     end)
 end
 
-lib.callback.register('consumables:client:DrinkAlcohol', function(params)
+lib.callback.register('consumables:client:DrinkAlcohol', function(anim, prop)
     if lib.progressBar({
         duration = math.random(3000, 6000),
         label = 'Drinking liquor...',
@@ -79,12 +79,12 @@ lib.callback.register('consumables:client:DrinkAlcohol', function(params)
             mouse = false,
             combat = true
         },
-        anim = params.anim or {
+        anim = anim or {
             clip = 'loop_bottle',
             dict = 'mp_player_intdrink',
             flag = 49
         },
-        prop = params.prop or {
+        prop = prop or {
             {
                 model = 'prop_amb_beer_bottle',
                 bone = 18905,
