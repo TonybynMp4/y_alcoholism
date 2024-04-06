@@ -93,7 +93,6 @@ lib.callback.register('consumables:client:DrinkAlcohol', function(params)
             }
         }
     }) then -- if completed
-        TriggerServerEvent('hud:server:RelieveStress', math.random(params.stressRelief.min, params.stressRelief.max))
         return true
     else -- if canceled
         exports.qbx_core:Notify('Canceled...', 'error')
