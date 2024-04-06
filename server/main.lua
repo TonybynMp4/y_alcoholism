@@ -18,7 +18,7 @@ for alcohol, params in pairs(config.alcoholItems) do
         local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, { anim = params.anim, prop = params.prop, stressRelief = params.stressRelief})
         if not drank then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
-        local sustenance = playerState.thirst + math.random(params.min, params.max)
+        local sustenance = lib.math.clamp(playerState.thirst + math.random(params.min, params.max), 0, 100)
         playerState:set('thirst', sustenance, true)
 
         local alcoholTolerance = player.PlayerData.metadata.alcoholTolerance or 0
