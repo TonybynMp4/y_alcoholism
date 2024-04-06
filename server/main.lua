@@ -33,6 +33,7 @@ for alcohol, params in pairs(config.alcoholItems) do
             exports.qbx_core:Notify(source, 'You feel like you can handle your liquor better now', 'success')
         end
 
+		playerState:set('stress', lib.math.clamp(playerState.stress - math.random(params.stressRelief.min, params.stressRelief.max), 0, 100), true)
         TriggerClientEvent('hud:client:UpdateNeeds', source, playerState.thirst, sustenance)
     end)
 end
