@@ -116,7 +116,7 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
 end)
 
 RegisterNetEvent('qbx_medical:client:playerRevived', function()
-    TriggerServerEvent('qbx_alcoholism:server:playerRevived')
+    TriggerServerEvent('y_alcoholism:server:playerRevived')
 end)
 
 AddEventHandler('onResourceStart', function(resource)

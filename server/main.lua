@@ -1,4 +1,4 @@
-lib.versionCheck('TonybynMp4/qbx_alcoholism')
+lib.versionCheck('TonybynMp4/y_alcoholism')
 local config = require 'config.server'
 local sharedConfig = require 'config.shared'
 
@@ -53,7 +53,7 @@ AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
         local player = exports.qbx_core:GetPlayer(target)
         if not player then return end
         player.Functions.SetMetaData('alcohol', 0)
-        
+
         local playerState = Player(target).state
         if not playerState then return end
         return playerState:set('alcohol', 0, true)
@@ -63,7 +63,7 @@ AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
         local player = exports.qbx_core:GetPlayer(id)
         if not player then goto continue end
         player.Functions.SetMetaData('alcohol', 0)
-        
+
         local playerState = Player(id).state
         if not playerState then goto continue end
         playerState:set('alcohol', 0, true)
@@ -71,7 +71,7 @@ AddEventHandler('txAdmin:events:healedPlayer', function(eventData)
     end
 end)
 
-RegisterNetEvent('qbx_alcoholism:server:playerRevived', function()
+RegisterNetEvent('y_alcoholism:server:playerRevived', function()
     local player = exports.qbx_core:GetPlayer(source)
     if not player then return end
     player.Functions.SetMetaData('alcohol', 0)
