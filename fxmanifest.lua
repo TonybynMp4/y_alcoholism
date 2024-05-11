@@ -4,7 +4,7 @@ game 'gta5'
 description 'y_alcoholism'
 authors 'Tonybyn_Mp4'
 repository 'https://github.com/TonybynMp4/y_alcoholism'
-version '1.1.1'
+version '1.1.2'
 
 shared_scripts {
     '@ox_lib/init.lua',
