@@ -3,6 +3,18 @@ local sharedConfig = require('config.shared')
 local playerState = LocalPlayer.state
 local alcoholLevel = playerState.alcohol or 0
 local playerWalk
+local soundLoop = false
+
+--Apprarently used by R* when drunk, makes car radio inaudible & adds reverb to everything
+local function soundModeLoop()
+    soundLoop = true
+    CreateThread(function()
+        while soundLoop and alcoholLevel > 0 do
+            SetAudioSpecialEffectMode(2)
+            Wait(0)
+        end
+    end)
+end
 
 local function resetEffect()
     exports.scully_emotemenu:setWalk(playerWalk or 'move_m@casual@a')
@@ -108,6 +120,12 @@ AddStateBagChangeHandler('alcohol', ('player:%s'):format(cache.serverId), functi
         return
     end
     alcoholLevel = value
+
+    if not soundLoop then
+        soundModeLoop()
+    elseif alcoholLevel <= 0 then
+        soundLoop = false
+    end
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()

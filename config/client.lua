@@ -1,4 +1,6 @@
 return {
+    --- Enables the drunk sound mode, something extra i guess
+    useDrunkSoundMode = true,
     --- delay in ms before the effect is first applied
     delayEffect = 15000,
     effect = {
