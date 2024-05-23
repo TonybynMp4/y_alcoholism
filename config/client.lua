@@ -16,16 +16,19 @@ return {
             [2.0] = {
                 timecycle = 'Drunk',
                 shake = 0.75,
+                toggleDrunkSounds = true,
                 walk = 'move_m@drunk@moderatedrunk'
             },
             [3.0] = {
                 timecycle = 'spectator5',
                 shake = 1.25,
+                toggleDrunkSounds = true,
                 walk = 'move_m@drunk@a'
             },
             [4.0] = {
                 timecycle = 'spectator5',
                 shake = 2.0,
+                toggleDrunkSounds = true,
                 walk = 'MOVE_M@DRUNK@VERYDRUNK'
             },
         },

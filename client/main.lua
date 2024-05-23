@@ -7,6 +7,8 @@ local soundLoop = false
 
 --Apprarently used by R* when drunk, makes car radio inaudible & adds reverb to everything
 local function soundModeLoop()
+    if not config.useDrunkSoundMode then return end
+
     soundLoop = true
     CreateThread(function()
         while soundLoop and alcoholLevel > 0 do
@@ -51,6 +53,11 @@ local function drunkLoop()
 
             if severity then
                 drunkEffect(severity)
+                if not soundLoop and severity.toggleDrunkSounds then
+                    soundModeLoop()
+                elseif soundLoop and not severity.toggleDrunkSounds then
+                    soundLoop = false
+                end
             end
 
             Wait(60000 * sharedConfig.alcoholDecayTime)
@@ -121,9 +128,7 @@ AddStateBagChangeHandler('alcohol', ('player:%s'):format(cache.serverId), functi
     end
     alcoholLevel = value
 
-    if not soundLoop then
-        soundModeLoop()
-    elseif alcoholLevel <= 0 then
+    if alcoholLevel <= 0 then
         soundLoop = false
     end
 end)
