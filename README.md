@@ -2,7 +2,7 @@
 A resource that allows you to fall into alcoholism.
 (it adds the effects of alcohol that's it)
 
-## Instalation
+## Installation
 - qbx_smallresources
   - client/consumables.lua & server/consumables.lua remove the loop / callback related to alcohol
   - config/shared.lua remove (or move them to this script, the config is compatible) the alcohol items
